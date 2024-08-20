@@ -6,7 +6,7 @@ from kivy.uix.label import Label
 
 import os
 
-from utilities.google_api import authenticate_drive, create_folder, choose_folder, upload_file_to_drive
+from utils.google_api import authenticate_drive, create_folder, choose_folder, upload_file_to_drive
 
 
 # UPLOADING A FILE TO GOOGLE DRIVE
