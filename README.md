@@ -41,7 +41,7 @@ To run the application, execute the following command: python main.py
 ## Configuration
 Google Drive Integration
 1.	Create a New Project:
-   - Go to the Google Cloud Console.
+   - Go to the Google Cloud Console (https://console.cloud.google.com/).
    - Click on the project drop-down in the top left and select “New Project.”
    - Name your project and click “Create.”
 2.	Enable Google Drive API:
