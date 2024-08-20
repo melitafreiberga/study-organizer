@@ -176,7 +176,6 @@ def binarize_image(warped):
 
 # SHARPEN THE IMAGE
 def sharpen_image(processed_image):
-    # Sharpening
     kernel = np.array([[0, -1, 0],
                        [-1, 5, -1],
                        [0, -1, 0]])
@@ -189,7 +188,7 @@ def sharpen_image(processed_image):
 
 # OPTICAL CHARACTER RECOGNITION
 def ocr(final_image):
-    # Use pytesseract to do OCR on the image
+    # Use pytesseract to perform OCR on the image
     extracted_text = pytesseract.image_to_string(final_image, lang='eng')
     # Create a TextBlob object
     # blob = TextBlob(extracted_text)
@@ -248,52 +247,80 @@ def turn_into_pdf(final_image):
 # HANDLING USER INTERACTION
 class DocumentProcessingApp(App):
     def __init__(self, **kwargs):
+        """
+        Initializes the DocumentProcessingApp class.
+        Sets up initial attributes such as state, image, document contour, and processed images.
+        """
         super().__init__(**kwargs)
-        self.current_state = 'INITIAL'
-        self.image = None
-        self.document_contour = None
-        self.warped = None
-        self.processed_image = None
-        self.final_image = None
-        self.pdf_generated = False
+        self.current_state = 'INITIAL'  # The state machine starts at 'INITIAL'
+        self.image = None  # Placeholder for the original image
+        self.document_contour = None  # Placeholder for the detected document contour
+        self.warped = None  # Placeholder for the perspective-transformed image
+        self.processed_image = None  # Placeholder for the processed (binarized) image
+        self.final_image = None  # Placeholder for the final sharpened image
+        self.pdf_generated = False  # Flag to indicate if the PDF has been generated
 
     def build(self):
-        self.layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        """
+        Builds the Kivy UI layout and returns the root widget.
+        Sets up the main layout with a question label and Yes/No buttons.
+        """
+        self.layout = BoxLayout(orientation='vertical', padding=10, spacing=10)  # Main layout
 
+        # Label to display the current question to the user
         self.question_label = Label(text="Do you want to use a pre-captured image?")
         self.layout.add_widget(self.question_label)
 
+        # Yes/No Buttons for user input
         self.yes_button = Button(text="Yes")
         self.no_button = Button(text="No")
 
+        # Bind button presses to corresponding methods
         self.yes_button.bind(on_press=self.on_yes)
         self.no_button.bind(on_press=self.on_no)
 
+        # Add buttons to the layout
         self.layout.add_widget(self.yes_button)
         self.layout.add_widget(self.no_button)
 
-        return self.layout
+        return self.layout  # Return the complete layout as the root widget
 
     def on_yes(self, instance):
+        """
+        Handles the event when the 'Yes' button is pressed.
+        Moves to the next step in the state machine.
+        """
         self.process_state('YES')
 
     def on_no(self, instance):
+        """
+        Handles the event when the 'No' button is pressed.
+        Moves to the next step in the state machine.
+        """
         self.process_state('NO')
 
     def process_state(self, user_choice):
+        """
+        Processes the current state based on user input.
+        Calls the appropriate handling methods depending on the state.
+        :param user_choice: 'YES' or 'NO' based on user interaction.
+        """
         if self.current_state == 'INITIAL':
+            # Handle the initial image choice (pre-captured or webcam)
             if user_choice == 'YES':
                 self.handle_image_choice(use_precaptured=True)
             elif user_choice == 'NO':
                 self.handle_image_choice(use_precaptured=False)
 
         elif self.current_state == 'IMAGE_CAPTURED':
+            # Handle binarization choice (black & white conversion)
             if user_choice == 'YES':
                 self.handle_binarization(binarize=True)
             elif user_choice == 'NO':
                 self.handle_binarization(binarize=False)
 
         elif self.current_state == 'BINARIZED':
+            # Handle OCR (text extraction) choice
             if user_choice == 'YES':
                 self.handle_ocr()
             elif user_choice == 'NO':
@@ -301,6 +328,7 @@ class DocumentProcessingApp(App):
                 self.next_question("Do you want to turn the final image into a PDF?")
 
         elif self.current_state == 'OCR_COMPLETED' or self.current_state == 'FINAL':
+            # Handle PDF creation choice
             if user_choice == 'YES':
                 self.handle_pdf_creation()
             elif user_choice == 'NO':
@@ -309,12 +337,19 @@ class DocumentProcessingApp(App):
                 self.current_state = 'DONE'
 
     def handle_image_choice(self, use_precaptured):
+        """
+        Handles the image selection process and updates the state accordingly.
+        :param use_precaptured: Boolean indicating whether to use a pre-captured image or webcam.
+        """
         try:
             if use_precaptured:
+                # Load the pre-captured image and detect contours
                 self.image, self.document_contour = contour_detection("your-image-path")  # ADD YOUR IMAGE PATH
             else:
+                # Capture an image using the webcam and detect contours
                 self.image, self.document_contour = contour_detection(webcam_frame())
 
+            # Apply perspective transform to the detected document contour
             self.warped = perspective_transform(self.image, self.document_contour)
             self.current_state = 'IMAGE_CAPTURED'
             self.next_question("Do you want to convert the document to black and white?")
@@ -327,12 +362,20 @@ class DocumentProcessingApp(App):
             self.question_label.text = f"An unexpected error occurred: {e}"
 
     def handle_binarization(self, binarize):
+        """
+        Handles the binarization (black & white conversion) of the image.
+        Updates the state after processing.
+        :param binarize: Boolean indicating whether to apply binarization or not.
+        """
         try:
             if binarize:
+                # Apply binarization to the warped image
                 self.processed_image = binarize_image(self.warped)
             else:
+                # Use the warped image as is
                 self.processed_image = self.warped
 
+            # Sharpen the processed image
             self.final_image = sharpen_image(self.processed_image)
             self.current_state = 'BINARIZED'
             self.next_question("Do you want to perform Optical Character Recognition?")
@@ -343,6 +386,10 @@ class DocumentProcessingApp(App):
             self.question_label.text = f"An unexpected error occurred: {e}"
 
     def handle_ocr(self):
+        """
+        Handles the Optical Character Recognition (OCR) process.
+        Updates the state after OCR is completed.
+        """
         try:
             app = App()
             app.build = lambda: manual_review_gui(ocr(self.final_image))
@@ -358,6 +405,9 @@ class DocumentProcessingApp(App):
             self.question_label.text = f"An unexpected error occurred: {e}"
 
     def handle_pdf_creation(self):
+        """
+        Handles the PDF creation process and updates the state after the PDF is generated.
+        """
         try:
             turn_into_pdf(self.final_image)
             self.pdf_generated = True
@@ -368,9 +418,17 @@ class DocumentProcessingApp(App):
             self.question_label.text = f"Error creating PDF: {e}"
 
     def next_question(self, question):
+        """
+        Updates the question label to ask the next question in the sequence.
+        :param question: The next question to display to the user.
+        """
         self.question_label.text = question
 
     def save_image(self, instance):
+        """
+        Handles the process of saving the final image based on user input.
+        Provides options to save or skip saving the image.
+        """
         # Remove yes/no buttons
         self.layout.remove_widget(self.yes_button)
         self.layout.remove_widget(self.no_button)
@@ -390,13 +448,16 @@ class DocumentProcessingApp(App):
         self.layout.add_widget(self.skip_save_button)
 
     def perform_save(self, instance):
+        """ Saves the final image to the directory and file specified by the user. """
         directory = self.directory_input.text.strip()
         filename = self.filename_input.text.strip()
-
+        
+        # If the user does not enter the directory or filename, ask again
         if not directory or not filename:
             self.question_label.text = "Please enter both directory path and file name"
             return
-
+        
+        # If the provided directory does not exist, try creating it
         if not os.path.exists(directory):
             try:
                 os.makedirs(directory)
@@ -404,9 +465,11 @@ class DocumentProcessingApp(App):
             except OSError as e:
                 self.question_label.text = f"Error: Unable to create directory '{directory}'. {e}"
                 return
-
+        
+        # Join the directory and filename to obtain the full path
         image_path = os.path.join(directory, f"{filename}.png")
-
+        
+        # Save the image at the provided location
         try:
             cv2.imwrite(image_path, self.final_image)
             self.question_label.text = f"Image saved successfully at {image_path}."
@@ -414,7 +477,9 @@ class DocumentProcessingApp(App):
             self.question_label.text = f"Failed to save the image: {e}"
 
     def skip_saving(self, instance):
+        """ Skips the image-saving process if the user chooses not to save the image. """
         self.question_label.text = "Image not saved. Process completed."
+        # Remove all widgets
         self.layout.remove_widget(self.directory_input)
         self.layout.remove_widget(self.filename_input)
         self.layout.remove_widget(self.save_button)
