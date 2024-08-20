@@ -1,5 +1,5 @@
-from my_package.image_processing import DocumentProcessingApp
-from my_package.drive_uploader import DriveUploaderApp
+from utilities.image_processing import DocumentProcessingApp
+from utilities.drive_uploader import DriveUploaderApp
 
 
 # Main logic with user choice
