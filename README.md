@@ -42,31 +42,31 @@ To run the application, execute the following command: python main.py
 Google Drive Integration: Ensure the OAuth credentials JSON file is correctly placed.
 
 ## Contributing
-	1.	Fork the repository.
-	2.	Create a new branch: git checkout -b feature-branch
-	3.	Make your changes and commit: git commit -m "Add a new feature"
- 	4.	Push to your branch: git push origin feature-branch
-	5.	Open a Pull Request.
+1. Fork the repository.
+2. Create a new branch: git checkout -b feature-branch
+3. Make your changes and commit: git commit -m "Add a new feature"
+4. Push to your branch: git push origin feature-branch
+5. Open a Pull Request.
 
 ## License
 This project is licensed under the MIT License.
 
 ## Credits
 This project utilizes the following libraries and tools:
-	•	**OpenCV** for image processing.
-	•	**PyTesseract** for OCR.
-	•	**Kivy** for creating the graphical user interface.
-	•	**Google Drive API** for file uploads.
+• **OpenCV** for image processing.
+• **PyTesseract** for OCR.
+• **Kivy** for creating the graphical user interface.
+• **Google Drive API** for file uploads.
 
 ## Contact Information
 For any questions or feedback, feel free to reach out on GitHub: melitafreiberga
 
 ## Known Issues / Troubleshooting
-	•	Issue 1: If the webcam fails to capture images, ensure the webcam is correctly connected and that no other application is using it.
-	•	Issue 2: In case of OCR inaccuracies, try adjusting the image contrast or resolution.
-	•	Issue 3: 
+• Issue 1: If the webcam fails to capture images, ensure the webcam is correctly connected and that no other application is using it.
+• Issue 2: In case of OCR inaccuracies, try adjusting the image contrast or resolution.
+• Issue 3: 
  
 ## Future Enhancements
-	•	Multiple Language OCR: Add support for extracting text in languages other than English.
-	•	Enhanced Google Drive Integration: Allow users to manage and organize files more effectively within Google Drive.
-	•	Improved GUI: Expand the user interface with more features and customization options.
+• Multiple Language OCR: Add support for extracting text in languages other than English.
+• Enhanced Google Drive Integration: Allow users to manage and organize files more effectively within Google Drive.
+• Improved GUI: Expand the user interface with more features and customization options.
