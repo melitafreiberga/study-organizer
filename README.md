@@ -3,6 +3,7 @@
 This Python-based application enables users to scan physical documents using a webcam, process the captured images, and save them either locally as a PDF or PNG file or directly upload them to Google Drive. The program features advanced image processing techniques, including contour detection, perspective transformation, binarization, and sharpening, to ensure high-quality document scans. Additionally, it offers optical character recognition (OCR) for extracting text from scanned documents, which can be manually reviewed and edited through a graphical user interface (GUI) built with Kivy.
 
 ## Table of Contents
+- [Repository Structure](#repository-structure)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -13,6 +14,14 @@ This Python-based application enables users to scan physical documents using a w
 - [Contact Information](#contact-information)
 - [Known Issues / Troubleshooting](#known-issues--troubleshooting)
 - [Future Enhancements](#future-enhancements)
+
+## Repository Structure
+- `src/`: Contains the source code for the application.
+  - `main.py`: The main script to run the application.
+  - `utils/`: Folder with Utility functions used across the project.
+     - `image_processing.py`:
+     - `google-api.py`
+     - `driver_uploader`:
 
 ## Features
 - Capture images via webcam.
@@ -36,7 +45,7 @@ This Python-based application enables users to scan physical documents using a w
 4. Place the Google Drive OAuth credentials JSON file in the root directory.
 
 ## Usage
-To run the application, execute the following command: python main.py
+To run the application, navigate to the src directory of the project and execute the following command: python main.py
 
 ## Configuration
 Google Drive Integration
