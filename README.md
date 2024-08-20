@@ -18,10 +18,10 @@ This Python-based application enables users to scan physical documents using a w
 ## Repository Structure
 - `src/`: Contains the source code for the application.
   - `main.py`: The main script to run the application.
-  - `utils/`: Folder with Utility functions used across the project.
-     - `image_processing.py`:
-     - `google-api.py`
-     - `driver_uploader`:
+  - `utils/`: Contains Python files with essential classes and utility functions needed for the main script. These files include all the core logic and tools, allowing the main script to focus on orchestrating the program by importing and utilizing these components.
+     - `image_processing.py`: Contains the DocumentProcessingApp class which creates a GUI for guiding the user through various image processing tasks and support functions required by the class, i.e., functions that perform image processing.
+     - `google-api.py`: Contains functions for operating Google Drive API, i.e., authenticating, accessing and creating folders.
+     - `driver_uploader`: Contains the DriveUploaderApp class which builds a GUI for saving files on Google Drive.
 
 ## Features
 - Capture images via webcam.
