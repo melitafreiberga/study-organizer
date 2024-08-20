@@ -311,7 +311,7 @@ class DocumentProcessingApp(App):
     def handle_image_choice(self, use_precaptured):
         try:
             if use_precaptured:
-                self.image, self.document_contour = contour_detection("my_package/non_py_files/captured_image2.jpeg")
+                self.image, self.document_contour = contour_detection("your-image-path")  # ADD YOUR IMAGE PATH
             else:
                 self.image, self.document_contour = contour_detection(webcam_frame())
 
