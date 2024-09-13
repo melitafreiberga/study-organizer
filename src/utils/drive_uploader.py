@@ -6,7 +6,7 @@ from kivy.uix.label import Label
 
 import os
 
-from utils.google_api import authenticate_drive, create_folder, choose_folder, upload_file_to_drive
+from utils.google_api import authenticate_drive, create_folder, list_folders, upload_file_to_drive
 
 
 # UPLOADING A FILE TO GOOGLE DRIVE
@@ -66,7 +66,9 @@ class DriveUploaderApp(App):
 
         # Return the completed layout to be used as the root widget of the application
         return self.layout
+
     '''
+    FUNCTION NO LONGER USED DUE TO THE INCONVENIENCE OF TYPING OUT FOLDER IDS
     def select_folder(self, instance):
         """ Handles the event when the 'Select Folder to Upload' button is pressed. """
         # Folders are listed in the status_label, and the user can input the ID in the TextInput field.
@@ -79,7 +81,7 @@ class DriveUploaderApp(App):
         self.folder_layout.clear_widgets()
 
         # Fetch folders from Google Drive
-        folders = choose_folder(self.service, self.status_label)
+        folders = list_folders(self.service)
 
         if folders:
             # Create a button for each folder
