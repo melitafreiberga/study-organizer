@@ -74,6 +74,7 @@ def create_folder(service, folder_name, status_label):
     return folder.get('id')
 
 
+# FUNCTION CHOOSE-FOLDER() NO LONGER USED DUE TO THE INCONVENIENCE OF ENTERING FOLDER IDS
 def choose_folder(service, status_label):
     """
     Lists folders and prompts the user to select one by entering its ID.
@@ -83,7 +84,6 @@ def choose_folder(service, status_label):
     :return: The list of folders.
     """
     folders = list_folders(service)  # Get the list of folders from Google Drive
-    '''
     if folders:
         # Prompt the user in the GUI
         status_label.text = "Folders found. Select one by entering its ID in the input field."
@@ -92,7 +92,6 @@ def choose_folder(service, status_label):
     else:
         # Inform the user if no folders are found
         status_label.text = "No folders found, file will be uploaded to the root directory."
-    '''
     return folders
 
 
